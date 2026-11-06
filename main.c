@@ -54,9 +54,10 @@ static int compileShader(const char *code, int shaderType) {
     if (!compiled) {
         int maxLength;
         glGetShaderiv(shader, GL_INFO_LOG_LENGTH, &maxLength);
-        char errorLog[0];
-        glGetShaderInfoLog(shader, maxLength, &maxLength, &errorLog[0]);
-        printf(errorLog);
+        char *errorLog = malloc(maxLength);
+        glGetShaderInfoLog(shader, maxLength, &maxLength, errorLog);
+        printf("%s", errorLog);
+        free(errorLog);
         exit(EXIT_FAILURE);
     }
     return shader;
